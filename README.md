@@ -64,7 +64,7 @@ El prefijo (`/api/sat-estado-cfdi`) y el middleware (ej. `auth`, `sanctum`, etc.
 curl -X POST http://tu-dominio.test/api/sat-estado-cfdi/consulta \
 -H "Content-Type: application/json" \
 -d '{
-  "expresion": "id=12345678-1234-1234-1234-123456789012&re=AAA010101AAA&rr=BBB010101BBB&tt=1234.56"
+  "expression": "id=12345678-1234-1234-1234-123456789012&re=AAA010101AAA&rr=BBB010101BBB&tt=1234.56"
 }'
 ```
 

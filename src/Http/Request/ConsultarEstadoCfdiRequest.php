@@ -14,17 +14,26 @@ class ConsultarEstadoCfdiRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'xml' => ['nullable', 'file', 'mimetypes:text/xml,application/xml'],
-            'expression' => ['nullable', 'string', 'max:1024'],
+            'xml' => [
+                'nullable',
+                'file',
+                'mimetypes:text/xml,application/xml',
+                'required_without:expression',
+            ],
+            'expression' => [
+                'nullable',
+                'string',
+                'max:1024',
+                'required_without:xml',
+            ],
         ];
     }
 
-    public function withValidator($validator): void
+    public function messages(): array
     {
-        $validator->after(function ($v) {
-            if (!$this->file('xml') && !$this->string('expression')) {
-                $v->errors()->add('xml', 'Debes enviar un XML o una expresión.');
-            }
-        });
+        return [
+            'xml.required_without' => 'Debes enviar un XML o una expresión.',
+            'expression.required_without' => 'Debes enviar una expresión o un XML.',
+        ];
     }
 }
