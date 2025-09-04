@@ -50,13 +50,13 @@ SAT_ESTADO_CACHE_TTL=900
 
 Si `SAT_ESTADO_EXPOSE_ROUTES` está en `true`, se habilitan los siguientes endpoints:
 
-| Método | Endpoint                        | Descripción                          |
-|--------|---------------------------------|--------------------------------------|
-| POST   | `/api/sat-estado-cfdi/consulta` | Consulta el estado de un CFDI        |
-| GET    | `/api/sat-estado-cfdi/status`   | Verifica que el servicio esté activo |
+| Método | Endpoint             | Descripción                          |
+|--------|----------------------|--------------------------------------|
+| POST   | `/api/cfdi/consulta` | Consulta el estado de un CFDI        |
+| GET    | `/api/cfdi/estatus`  | Verifica que el servicio esté activo |
 
-El prefijo (`/api/sat-estado-cfdi`) y el middleware (ej. `auth`, `sanctum`, etc.) pueden modificarse con la variable
-`SAT_ESTADO_ROUTE_PREFIX`.
+El prefijo (`/api`) y el middleware (ej. `auth`, `sanctum`, etc.) pueden modificarse con la variable
+`SAT_ESTADO_ROUTE_PREFIX` y `SAT_ESTADO_ROUTE_MIDDLEWARE`.
 
 ### Ejemplo de consulta
 
@@ -129,6 +129,7 @@ if ($status->document->isActive()) {
 ```
 
 📌 Notas
+
 - El paquete se apoya en y utiliza la librería [phpcfdi/sat-estado-cfdi](https://github.com/phpcfdi/sat-estado-cfdi)
 - El servicio del SAT puede ser intermitente, se recomienda configurar caché y reintentos.
 - Los estados dependen de la respuesta oficial del SAT.
