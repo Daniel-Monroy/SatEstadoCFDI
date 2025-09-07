@@ -2,7 +2,7 @@
 
 namespace DanielMonroy\SatEstadoCfdi\Facades;
 
-use DanielMonroy\SatEstadoCfdi\Services\SatEstadoCfdiService;
+use DanielMonroy\SatEstadoCfdi\Services\SatEstadoCfdi\SatEstadoCfdiService;
 
 /**
  * @method static mixed consultFromXmlPath(string $xmlPath, ?int $ttlSeconds = null)

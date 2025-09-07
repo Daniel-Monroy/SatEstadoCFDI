@@ -1,6 +1,6 @@
 <?php
 
-namespace DanielMonroy\SatEstadoCfdi\Services;
+namespace DanielMonroy\SatEstadoCfdi\Services\SatEstadoCfdi;
 
 use Illuminate\Support\Facades\Cache;
 use PhpCfdi\CfdiExpresiones\DiscoverExtractor;

@@ -2,7 +2,7 @@
 
 namespace DanielMonroy\SatEstadoCfdi;
 
-use DanielMonroy\SatEstadoCfdi\Services\SatEstadoCfdiService;
+use DanielMonroy\SatEstadoCfdi\Services\SatEstadoCfdi\SatEstadoCfdiService;
 use DanielMonroy\SatEstadoCfdi\Support\GuzzleFactory;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;

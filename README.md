@@ -82,10 +82,10 @@ La respuesta será similar a:
 ```json
 {
   "ok": true,
-  "estatus": "activo",
-  "message": "El CFDI es válido y está activo.",
+  "status": "active",
+  "message": "The CFDI is active and valid.",
   "cancelabilidad": "sin_aceptacion",
-  "cancelacion": "no_cancelado",
+  "cancelacion": "indefinida",
   "flags": {
     "isActive": true,
     "isCancelled": false,
@@ -109,9 +109,9 @@ La respuesta será similar a:
       "isCancelledByExpiration": false,
       "isPending": false,
       "isDisapproved": false,
-      "isUndefined": false
+      "isUndefined": true
     },
-    "efos": "Excluded"
+    "efos": null
   }
 }
 ```
