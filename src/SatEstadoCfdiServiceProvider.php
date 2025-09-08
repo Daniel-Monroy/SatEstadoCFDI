@@ -4,6 +4,7 @@ namespace DanielMonroy\SatEstadoCfdi;
 
 use DanielMonroy\SatEstadoCfdi\Services\SatEstadoCfdi\SatEstadoCfdiService;
 use DanielMonroy\SatEstadoCfdi\Support\GuzzleFactory;
+use DanielMonroy\SatEstadoCfdi\Services\SatEstadoCfdi\EstadoCfdiResponseNormalizerService;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use PhpCfdi\SatEstadoCfdi\Clients\Http\HttpConsumerClient;
@@ -27,8 +28,14 @@ class SatEstadoCfdiServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(SatEstadoCfdiService::class, function ($app) {
-            return new SatEstadoCfdiService($app->make(Consumer::class));
+            return new SatEstadoCfdiService(
+                $app->make(Consumer::class),
+                $app->make(EstadoCfdiResponseNormalizerService::class)
+            );
         });
+
+        // Facade accessor
+        $this->app->alias(SatEstadoCfdiService::class, 'sat-estado-cfdi');
     }
 
     public function boot(): void

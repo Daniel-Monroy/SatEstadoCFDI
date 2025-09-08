@@ -12,20 +12,17 @@ use Illuminate\Routing\Controller;
 class ConsultarEstadoCfdiController extends Controller
 {
     public function __invoke(
-        ConsultarEstadoCfdiRequest          $request,
-        SatEstadoCfdiService                $service,
-        EstadoCfdiResponseNormalizerService $normalizer
+        ConsultarEstadoCfdiRequest $request,
+        SatEstadoCfdiService       $cfdiService,
     ): JsonResponse
     {
-        $cfdiResponse = $request->file('xml')
-            ? $service->consultFromXmlPath($request->file('xml')->getRealPath())
-            : $service->consultByExpression((string)$request->string('expression'));
+        $response = $request->hasFile('xml')
+            ? $cfdiService->consultFromXmlPath($request->file('xml')->getRealPath())
+            : $cfdiService->consultByExpression((string)$request->string('expression'));
 
-        if (!$cfdiResponse->status->query->isFound()) {
-            return response()->json(new EstadoCfdiNotFoundDto(), 404);
-        }
-
-        $dto = $normalizer->toDto($cfdiResponse->status, $cfdiResponse->id ?? 'unknown');
-        return response()->json($dto);
+        return response()->json(
+            $response,
+            $response instanceof EstadoCfdiNotFoundDto ? 404 : 200
+        );
     }
 }
