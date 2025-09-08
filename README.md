@@ -83,6 +83,7 @@ La respuesta será similar a:
 {
   "ok": true,
   "status": "active",
+  "id": "XXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
   "message": "The CFDI is active and valid.",
   "cancelabilidad": "sin_aceptacion",
   "cancelacion": "indefinida",
