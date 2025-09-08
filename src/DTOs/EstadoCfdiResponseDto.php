@@ -6,6 +6,7 @@ class EstadoCfdiResponseDto
 {
     public function __construct(
         public bool   $ok,
+        public string $id,
         public string $status,
         public string $message,
         public string $cancelabilidad,

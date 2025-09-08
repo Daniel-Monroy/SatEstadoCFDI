@@ -2,6 +2,7 @@
 
 namespace DanielMonroy\SatEstadoCfdi\Services\SatEstadoCfdi;
 
+use DanielMonroy\SatEstadoCfdi\DTOs\EstadoCfdiHttpResponseDto;
 use Illuminate\Support\Facades\Cache;
 use PhpCfdi\CfdiExpresiones\DiscoverExtractor;
 use PhpCfdi\SatEstadoCfdi\CfdiStatus;
@@ -13,7 +14,7 @@ readonly class SatEstadoCfdiService
     {
     }
 
-    public function consultFromXmlPath(string $xmlPath, ?int $ttlSeconds = null): CfdiStatus
+    public function consultFromXmlPath(string $xmlPath, ?int $ttlSeconds = null): EstadoCfdiHttpResponseDto
     {
         $doc = new \DOMDocument();
         $doc->load($xmlPath);
@@ -21,11 +22,19 @@ readonly class SatEstadoCfdiService
         return $this->consultByExpression($expression, $ttlSeconds);
     }
 
-    public function consultByExpression(string $expression, ?int $ttlSeconds = null): CfdiStatus
+    public function consultByExpression(string $expression, ?int $ttlSeconds = null): EstadoCfdiHttpResponseDto
     {
         $ttl = $ttlSeconds ?? (int)config('sat-estado-cfdi.cache_ttl', 900);
-        return Cache::remember('sat_estado:' . md5($expression), $ttl, function () use ($expression) {
-            return $this->consumer->execute($expression);
+
+        parse_str($expression, $params);
+        $id = $params['id'] ?? null;
+
+        return Cache::remember('sat_estado:' . md5($expression), $ttl, function () use ($expression, $id) {
+            return new EstadoCfdiHttpResponseDto(
+                $this->consumer->execute($expression),
+                $expression,
+                $id,
+            );
         });
     }
 }

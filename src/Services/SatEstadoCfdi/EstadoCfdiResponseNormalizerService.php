@@ -6,13 +6,14 @@ use DanielMonroy\SatEstadoCfdi\DTOs\EstadoCfdiResponseDto;
 
 class EstadoCfdiResponseNormalizerService
 {
-    public function toDto(object $status): EstadoCfdiResponseDto
+    public function toDto(object $status, string $id): EstadoCfdiResponseDto
     {
         $isActive = $status->document->isActive();
         $isCancelled = $status->document->isCancelled();
 
         return new EstadoCfdiResponseDto(
             ok: true,
+            id: $id,
             status: $isActive ? 'active' : 'cancelled',
             message: $isActive
                 ? 'The CFDI is active and valid.'

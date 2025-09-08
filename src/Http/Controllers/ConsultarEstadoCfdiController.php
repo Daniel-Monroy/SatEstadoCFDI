@@ -17,15 +17,15 @@ class ConsultarEstadoCfdiController extends Controller
         EstadoCfdiResponseNormalizerService $normalizer
     ): JsonResponse
     {
-        $status = $request->file('xml')
+        $cfdiResponse = $request->file('xml')
             ? $service->consultFromXmlPath($request->file('xml')->getRealPath())
             : $service->consultByExpression((string)$request->string('expression'));
 
-        if (!$status->query->isFound()) {
+        if (!$cfdiResponse->status->query->isFound()) {
             return response()->json(new EstadoCfdiNotFoundDto(), 404);
         }
 
-        $dto = $normalizer->toDto($status);
+        $dto = $normalizer->toDto($cfdiResponse->status, $cfdiResponse->id ?? 'unknown');
         return response()->json($dto);
     }
 }
