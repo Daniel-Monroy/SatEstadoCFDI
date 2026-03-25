@@ -5,7 +5,7 @@
   "license": "MIT",
   "require": {
     "php": "^8.3",
-    "laravel/framework": "^11.0|^12.0",
+    "laravel/framework": "^11.0|^12.0|^13.0",
     "phpcfdi/sat-estado-cfdi": "^2.0",
     "phpcfdi/cfdi-expresiones": "^v3.3.0",
     "guzzlehttp/guzzle": "^7.9",
@@ -23,6 +23,18 @@
       "DanielMonroy\\SatEstadoCfdi\\Tests\\": "tests/"
     }
   },
+  "require-dev": {
+    "laravel/pint": "^1.24",
+    "mockery/mockery": "^1.6",
+    "orchestra/testbench": "^10.0|^11.0",
+    "pestphp/pest": "^3.8|^4.0",
+    "pestphp/pest-plugin-laravel": "^3.2|^4.0"
+  },
+  "conflict": {
+    "league/commonmark": ">=2.0.0,<2.8.2",
+    "symfony/http-foundation": ">=7.0.0,<7.3.7",
+    "symfony/process": ">=7.0.0,<7.3.11"
+  },
   "extra": {
     "laravel": {
       "providers": [
@@ -35,5 +47,10 @@
     "test": "vendor/bin/pest"
   },
   "minimum-stability": "stable",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  }
 }

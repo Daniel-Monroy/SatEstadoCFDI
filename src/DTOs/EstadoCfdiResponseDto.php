@@ -2,20 +2,20 @@
 
 namespace DanielMonroy\SatEstadoCfdi\DTOs;
 
-class EstadoCfdiResponseDto
+use JsonSerializable;
+
+class EstadoCfdiResponseDto implements JsonSerializable
 {
     public function __construct(
-        public bool   $ok,
+        public bool $ok,
         public string $id,
         public string $status,
         public string $message,
         public string $cancelabilidad,
         public string $cancelacion,
-        public array  $flags,
-        public array  $raw,
-    )
-    {
-    }
+        public array $flags,
+        public array $raw,
+    ) {}
 
     public function jsonSerialize(): array
     {

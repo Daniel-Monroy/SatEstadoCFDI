@@ -8,9 +8,7 @@ class EstadoCfdiHttpResponseDto
 {
     public function __construct(
         public CfdiStatus $status,
-        public string     $expression,
-        public ?string    $id = null,
-    )
-    {
-    }
+        public string $expression,
+        public ?string $id = null,
+    ) {}
 }

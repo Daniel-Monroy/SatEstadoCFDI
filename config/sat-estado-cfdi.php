@@ -1,13 +1,10 @@
 <?php
 
 return [
-    // Rutas HTTP opcionales (controller incluido en el paquete)
+    // Rutas HTTP opcionales. Si prefieres usar solo el servicio o facade, puedes dejarlas desactivadas.
     'expose_routes' => env('SAT_ESTADO_EXPOSE_ROUTES', false),
     'route_prefix' => env('SAT_ESTADO_ROUTE_PREFIX', 'api'),
-    'middleware' => env('SAT_ESTADO_ROUTE_MIDDLEWARE', [
-        'api',
-        // Tal vez quieras agregar 'auth:sanctum' o 'auth:api'
-    ]),
+    'middleware' => env('SAT_ESTADO_ROUTE_MIDDLEWARE', 'api'),
 
     // HTTP Client (Guzzle) — timeouts y reintentos
     'http' => [
