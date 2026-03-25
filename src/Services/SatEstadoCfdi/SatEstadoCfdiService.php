@@ -73,16 +73,17 @@ readonly class SatEstadoCfdiService
     public function consultByExpression(string $expression, ?int $ttlSeconds = null): EstadoCfdiResponseDto|EstadoCfdiNotFoundDto
     {
         $ttl = $ttlSeconds ?? (int) config('sat-estado-cfdi.cache_ttl', 900);
+        $normalizedExpression = PrintedExpression::extractQueryString($expression);
 
-        $params = PrintedExpression::parse($expression);
+        $params = PrintedExpression::parse($normalizedExpression);
         $id = $params['id'] ?? 'unknown';
 
         $cfdiResponse = Cache::remember(
-            'sat_estado:'.hash('sha256', $expression),
+            'sat_estado:'.hash('sha256', $normalizedExpression),
             $ttl,
             fn () => new EstadoCfdiHttpResponseDto(
                 $this->consumer->execute($expression),
-                $expression,
+                $normalizedExpression,
                 $id
             )
         );
