@@ -15,16 +15,18 @@ class ConsultarEstadoCfdiController extends Controller
         ConsultarEstadoCfdiRequest $request,
         SatEstadoCfdiService $cfdiService,
     ): JsonResponse {
-        try {
-            $response = $request->hasFile('xml')
-                ? $cfdiService->consultFromXmlPath($request->file('xml')->getRealPath())
-                : $cfdiService->consultByExpression((string) $request->string('expression'));
-        } catch (RuntimeException $exception) {
-            return response()->json([
-                'ok' => false,
-                'status' => 'invalid_xml',
-                'message' => $exception->getMessage(),
-            ], 422);
+        if ($request->hasFile('xml')) {
+            try {
+                $response = $cfdiService->consultFromXmlPath($request->file('xml')->getRealPath());
+            } catch (RuntimeException $exception) {
+                return response()->json([
+                    'ok' => false,
+                    'status' => 'invalid_xml',
+                    'message' => $exception->getMessage(),
+                ], 422);
+            }
+        } else {
+            $response = $cfdiService->consultByExpression((string) $request->string('expression'));
         }
 
         return response()->json(
