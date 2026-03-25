@@ -48,7 +48,7 @@ class ConsultarEstadoCfdiRequest extends FormRequest
 
                     if ($missingFields !== []) {
                         $fail(sprintf(
-                            'La expresion debe incluir los parametros requeridos: %s.',
+                            'La expresión debe incluir los parámetros requeridos: %s.',
                             implode(', ', $missingFields)
                         ));
                     }
