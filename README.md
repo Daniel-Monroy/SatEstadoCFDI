@@ -1,15 +1,32 @@
 # SatEstadoCFDI (Laravel Package)
 
-Este paquete integra la librería [phpcfdi/sat-estado-cfdi](https://github.com/phpcfdi/sat-estado-cfdi) a **Laravel 11 /
-12**
+Este paquete integra la librería [phpcfdi/sat-estado-cfdi](https://github.com/phpcfdi/sat-estado-cfdi) en **Laravel 11, 12 y 13**
 para consultar el **estado de un CFDI** directamente en el **servicio web del SAT**.
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/daniel-monroy/sat-estado-cfdi.svg?style=flat-square)](https://packagist.org/packages/daniel-monroy/sat-estado-cfdi)
 [![Total Downloads](https://img.shields.io/packagist/dt/daniel-monroy/sat-estado-cfdi.svg?style=flat-square)](https://packagist.org/packages/daniel-monroy/sat-estado-cfdi)
 
-El protocolo que utiliza el SAT para esta consulta es **SOAP sobre HTTP/HTTPS**, expuesto como **servicio web**.  
-Este paquete se conecta mediante el **cliente HTTP (PSR-18)**, con compatibilidad para middlewares (reintentos,
-timeouts, logging, etc.).
+El protocolo que utiliza el SAT para esta consulta es **SOAP sobre HTTP/HTTPS**, expuesto como **servicio web**.
+Este paquete se conecta mediante un **cliente HTTP PSR-18**, con compatibilidad para reintentos, timeouts, caché y una
+integración HTTP opcional para proyectos Laravel.
+
+## Documentación
+
+- [Instalación](./docs/installation.md)
+- [Uso](./docs/usage.md)
+- [Integración HTTP](./docs/http-integration.md)
+- [Errores](./docs/errors.md)
+- [Testing](./docs/testing.md)
+- [Seguridad](./docs/security.md)
+- [Arquitectura](./docs/architecture.md)
+- [Changelog](./docs/CHANGELOG.md)
+
+## Compatibilidad
+
+| PHP | Laravel |
+|-----|---------|
+| 8.3 | 11, 12, 13 |
+| 8.4 | 11, 12, 13 |
 
 ## 📦 Instalación
 
@@ -33,7 +50,7 @@ Ejemplo de configuración en `config/sat-estado-cfdi.php`:
 return [
     'expose_routes' => env('SAT_ESTADO_EXPOSE_ROUTES', false),
     'route_prefix'  => env('SAT_ESTADO_ROUTE_PREFIX', 'api'),
-    'middleware'    => ['api', 'auth:sanctum'],
+    'middleware'    => env('SAT_ESTADO_ROUTE_MIDDLEWARE', 'api'),
     'cache_ttl'     => env('SAT_ESTADO_CACHE_TTL', 900), // segundos
 ];
 ```
@@ -43,17 +60,48 @@ En el archivo `.env` puedes definir:
 ```env
 SAT_ESTADO_EXPOSE_ROUTES=true
 SAT_ESTADO_ROUTE_PREFIX=api
+SAT_ESTADO_ROUTE_MIDDLEWARE=api,auth:sanctum
 SAT_ESTADO_CACHE_TTL=900
 ```
 
-## 📡 Endpoints expuestos (opcional)
+## Uso desde Laravel
+
+### Servicio
+
+```php
+use DanielMonroy\SatEstadoCfdi\Services\SatEstadoCfdi\SatEstadoCfdiService;
+
+$response = app(SatEstadoCfdiService::class)->consultByExpression(
+    'https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?id=UUID&re=AAA010101AAA&rr=BBB010101BBB&tt=123.450000&fe=ABCD1234'
+);
+```
+
+### Facade
+
+```php
+use DanielMonroy\SatEstadoCfdi\Facades\SatEstado;
+
+$response = SatEstado::consultByExpression(
+    'id=UUID&re=AAA010101AAA&rr=BBB010101BBB&tt=123.450000'
+);
+```
+
+### Desde XML
+
+```php
+use DanielMonroy\SatEstadoCfdi\Facades\SatEstado;
+
+$response = SatEstado::consultFromXmlPath(storage_path('app/cfdi.xml'));
+```
+
+## 📡 Integración HTTP opcional
 
 Si `SAT_ESTADO_EXPOSE_ROUTES` está en `true`, se habilitan los siguientes endpoints:
 
-| Método | Endpoint             | Descripción                          |
-|--------|----------------------|--------------------------------------|
-| POST   | `/api/cfdi/consulta` | Consulta el estado de un CFDI        |
-| GET    | `/api/cfdi/estatus`  | Verifica que el servicio esté activo |
+| Método | Endpoint            | Descripción                          |
+|--------|---------------------|--------------------------------------|
+| POST   | `/api/cfdi/estado`  | Consulta el estado de un CFDI        |
+| GET    | `/api/cfdi/estatus` | Verifica que el servicio esté activo |
 
 El prefijo (`/api`) y el middleware (ej. `auth`, `sanctum`, etc.) pueden modificarse con la variable
 `SAT_ESTADO_ROUTE_PREFIX` y `SAT_ESTADO_ROUTE_MIDDLEWARE`.
@@ -61,7 +109,7 @@ El prefijo (`/api`) y el middleware (ej. `auth`, `sanctum`, etc.) pueden modific
 ### Ejemplo de consulta
 
 ```bash
-curl -X POST http://tu-dominio.test/api/sat-estado-cfdi/consulta \
+curl -X POST http://tu-dominio.test/api/cfdi/estado \
 -H "Content-Type: application/json" \
 -d '{
   "expression": "id=12345678-1234-1234-1234-123456789012&re=AAA010101AAA&rr=BBB010101BBB&tt=1234.56"
@@ -71,8 +119,7 @@ curl -X POST http://tu-dominio.test/api/sat-estado-cfdi/consulta \
 o con multipart/form-data enviando directamente el archivo `XML`:
 
 ```bash
-curl -X POST http://tu-dominio.test/api/sat-estado-cfdi/
-consulta \
+curl -X POST http://tu-dominio.test/api/cfdi/estado \
 -H "Content-Type: multipart/form-data" \
 -F "xml=@/ruta/al/archivo.xml"
 ```
@@ -84,7 +131,7 @@ La respuesta será similar a:
   "ok": true,
   "status": "active",
   "id": "XXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
-  "message": "The CFDI is active and valid.",
+  "message": "El CFDI se encuentra vigente y es valido.",
   "cancelabilidad": "sin_aceptacion",
   "cancelacion": "indefinida",
   "flags": {
@@ -117,23 +164,30 @@ La respuesta será similar a:
 }
 ```
 
-🧪 Ejemplo de uso en código
+## Manejo de errores
 
-```php
-use DanielMonroy\SatEstadoCfdi\Facades\SatEstado;
+- Si el CFDI no existe, el paquete responde `404` en la integración HTTP opcional y devuelve un DTO `not_found`.
+- Si el XML está mal formado o no puede leerse, la integración HTTP opcional responde `422`.
+- Si la expresión no contiene al menos `id`, `re`, `rr` y `tt`, la validación HTTP responderá `422`.
 
-$expresion = '?re=AAA010101AAA&rr=BBB010101BBB&tt=123.450000&id=UUID...';
-$status = SatEstado::consultByExpression($expresion);
-if ($status->document->isActive()) {
-    echo "El CFDI está activo";
-}
+## Desarrollo
+
+Instala dependencias de desarrollo y ejecuta las herramientas locales:
+
+```bash
+composer install
+composer test
+composer lint
 ```
 
-📌 Notas
+## Notas
 
 - El paquete se apoya en y utiliza la librería [phpcfdi/sat-estado-cfdi](https://github.com/phpcfdi/sat-estado-cfdi)
 - El servicio del SAT puede ser intermitente, se recomienda configurar caché y reintentos.
 - Los estados dependen de la respuesta oficial del SAT.
+- Si necesitas una integración agnóstica al framework, usa directamente `phpcfdi/sat-estado-cfdi`. Este paquete está
+  orientado específicamente a Laravel.
 
-📄 Licencia
+## Licencia
+
 Este paquete es software libre bajo la licencia MIT.

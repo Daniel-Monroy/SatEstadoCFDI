@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/cfdi/estado', ConsultarEstadoCfdiController::class)->name('sat-estado.consultar');
 
-Route::get('/cfdi/estatus', function () {
-    return response()->json("El doc está activo, está vivo!");
-})->name('sat-estado.estatus');
+Route::get('/cfdi/estatus', fn () => response()->json([
+    'ok' => true,
+    'status' => 'available',
+    'message' => 'El servicio del paquete está disponible.',
+]))
+    ->name('sat-estado.estatus');

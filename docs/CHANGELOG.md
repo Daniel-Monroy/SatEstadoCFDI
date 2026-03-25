@@ -1,5 +1,17 @@
 # SatEstadoCFDI — Changelog
 
+## [v0.1.0] - 2026-03-24
+
+- Compatibilidad declarada y validada con Laravel 13.
+- Compatibilidad operativa revisada para PHP 8.4.
+- Endurecimiento de la carga XML con `LIBXML_NONET` y manejo controlado de errores.
+- Validación de expresiones impresas del SAT con campos requeridos.
+- Soporte correcto para expresiones completas en formato URL del SAT.
+- Mejora de consistencia y legibilidad en provider, DTOs, facade y servicios.
+- Agregada suite inicial con Pest y Orchestra Testbench.
+- Agregadas herramientas de desarrollo para pruebas y formateo.
+- Documentación ampliada en `docs/`.
+
 ## Versión 0.0.x
 
 - 🚀 **Versión inicial del paquete.**

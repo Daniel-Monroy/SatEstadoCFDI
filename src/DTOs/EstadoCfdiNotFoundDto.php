@@ -2,7 +2,9 @@
 
 namespace DanielMonroy\SatEstadoCfdi\DTOs;
 
-class EstadoCfdiNotFoundDto implements \JsonSerializable
+use JsonSerializable;
+
+class EstadoCfdiNotFoundDto implements JsonSerializable
 {
     public function jsonSerialize(): array
     {
@@ -13,7 +15,7 @@ class EstadoCfdiNotFoundDto implements \JsonSerializable
             'data' => [
                 'query' => [
                     'isFound' => false,
-                ]
+                ],
             ],
         ];
     }

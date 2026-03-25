@@ -2,13 +2,13 @@
 
 namespace DanielMonroy\SatEstadoCfdi\Facades;
 
-use DanielMonroy\SatEstadoCfdi\Services\SatEstadoCfdi\SatEstadoCfdiService;
+use Illuminate\Support\Facades\Facade;
 
 /**
  * @method static mixed consultFromXmlPath(string $xmlPath, ?int $ttlSeconds = null)
  * @method static mixed consultByExpression(string $expression, ?int $ttlSeconds = null)
  */
-class SatEstado extends \Illuminate\Support\Facades\Facade
+class SatEstado extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
