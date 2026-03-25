@@ -48,7 +48,7 @@ readonly class SatEstadoCfdiService
         libxml_use_internal_errors($previousUseInternalErrors);
 
         if (! $loaded) {
-            throw new RuntimeException('El XML proporcionado es invalido.');
+            throw new RuntimeException('El XML proporcionado es inválido.');
         }
 
         $expression = (new DiscoverExtractor)->extract($doc);
