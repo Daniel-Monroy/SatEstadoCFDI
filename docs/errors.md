@@ -53,7 +53,7 @@ Ejemplo de mensaje:
   "message": "The given data was invalid.",
   "errors": {
     "expression": [
-      "La expresion debe incluir los parametros requeridos: rr, tt."
+      "La expresión debe incluir los parámetros requeridos: rr, tt."
     ]
   }
 }
