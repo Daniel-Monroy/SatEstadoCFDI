@@ -17,7 +17,7 @@ class ConsultarEstadoCfdiController extends Controller
     ): JsonResponse {
         if ($request->hasFile('xml')) {
             try {
-                $response = $cfdiService->consultFromXmlPath($request->file('xml')->getRealPath());
+                $response = $cfdiService->consultFromXmlPath($request->file('xml')->getPathname());
             } catch (RuntimeException $exception) {
                 return response()->json([
                     'ok' => false,

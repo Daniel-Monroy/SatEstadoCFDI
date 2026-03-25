@@ -59,6 +59,20 @@ it('returns validation errors for malformed xml uploads', function (): void {
         ->assertJsonPath('status', 'invalid_xml');
 });
 
+it('accepts valid xml uploads without failing on file path resolution', function (): void {
+    app()->instance(Consumer::class, new Consumer(new FakeConsumerClient(Fixtures::foundResponse())));
+    app()->forgetInstance(SatEstadoCfdiService::class);
+
+    $file = UploadedFile::fake()->createWithContent('cfdi.xml', Fixtures::cfdi40Xml());
+
+    $this->post('/api/cfdi/estado', [
+        'xml' => $file,
+    ])
+        ->assertOk()
+        ->assertJsonPath('ok', true)
+        ->assertJsonPath('id', '12345678-1234-1234-1234-123456789012');
+});
+
 it('can query using the facade', function (): void {
     app()->instance(Consumer::class, new Consumer(new FakeConsumerClient(Fixtures::foundResponse())));
     app()->forgetInstance(SatEstadoCfdiService::class);
