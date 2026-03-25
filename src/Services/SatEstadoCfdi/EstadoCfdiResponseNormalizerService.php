@@ -20,7 +20,7 @@ class EstadoCfdiResponseNormalizerService
             id: $id,
             status: $isActive ? 'active' : 'cancelled',
             message: $isActive
-                ? 'El CFDI se encuentra vigente y es valido.'
+                ? 'El CFDI se encuentra vigente y es válido.'
                 : 'El CFDI fue cancelado.',
             cancelabilidad: $this->normalizeCancelability($status),
             cancelacion: $this->normalizeCancellation($status),
