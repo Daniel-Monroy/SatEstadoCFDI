@@ -21,3 +21,20 @@ it('reports missing required fields from an incomplete expression', function ():
 
     expect($missing)->toBe(['rr', 'tt']);
 });
+
+it('accepts query strings with an initial question mark', function (): void {
+    $params = PrintedExpression::parse('?id=123&re=AAA010101AAA&rr=BBB010101BBB&tt=123.45');
+
+    expect($params)->toMatchArray([
+        'id' => '123',
+        're' => 'AAA010101AAA',
+        'rr' => 'BBB010101BBB',
+        'tt' => '123.45',
+    ]);
+});
+
+it('parses url encoded expression values', function (): void {
+    $params = PrintedExpression::parse('id=123&re=AAA010101AAA&rr=BBB010101BBB&tt=123%2E45');
+
+    expect($params['tt'])->toBe('123.45');
+});

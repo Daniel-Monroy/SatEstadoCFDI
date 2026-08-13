@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DanielMonroy\SatEstadoCfdi\Services\SatEstadoCfdi;
 
 use DanielMonroy\SatEstadoCfdi\DTOs\EstadoCfdiResponseDto;
@@ -49,7 +51,7 @@ class EstadoCfdiResponseNormalizerService
                     'isDisapproved' => $cancellation->isDisapproved(),
                     'isUndefined' => $cancellation->isUndefined(),
                 ],
-                'efos' => $status->efos->value ?? null,
+                'efos' => $status->efos->name,
             ],
         );
     }

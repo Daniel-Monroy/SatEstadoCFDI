@@ -1,4 +1,4 @@
-# Testing
+# Pruebas
 
 ## Instalar dependencias de desarrollo
 

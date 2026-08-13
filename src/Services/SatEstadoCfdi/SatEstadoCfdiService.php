@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DanielMonroy\SatEstadoCfdi\Services\SatEstadoCfdi;
 
 use DanielMonroy\SatEstadoCfdi\DTOs\EstadoCfdiHttpResponseDto;

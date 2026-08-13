@@ -3,9 +3,21 @@
   "description": "Paquete interno Laravel para consultar estado CFDI (SAT)",
   "type": "library",
   "license": "MIT",
+  "keywords": [
+    "laravel",
+    "sat",
+    "cfdi",
+    "phpcfdi",
+    "facturacion-electronica"
+  ],
+  "homepage": "https://github.com/DanielMonroy/SatEstadoCFDI",
+  "support": {
+    "issues": "https://github.com/DanielMonroy/SatEstadoCFDI/issues",
+    "source": "https://github.com/DanielMonroy/SatEstadoCFDI"
+  },
   "require": {
     "php": "^8.3",
-    "laravel/framework": "^11.0|^12.0|^13.0",
+    "laravel/framework": "^12.0|^13.0",
     "phpcfdi/sat-estado-cfdi": "^2.0",
     "phpcfdi/cfdi-expresiones": "^v3.3.0",
     "guzzlehttp/guzzle": "^7.9",
@@ -25,10 +37,11 @@
   },
   "require-dev": {
     "laravel/pint": "^1.24",
+    "larastan/larastan": "^3.0",
     "mockery/mockery": "^1.6",
-    "orchestra/testbench": "^10.0|^11.0",
-    "pestphp/pest": "^3.8|^4.0",
-    "pestphp/pest-plugin-laravel": "^3.2|^4.0"
+    "orchestra/testbench": "^10.9|^11.2",
+    "pestphp/pest": "^4.7",
+    "pestphp/pest-plugin-laravel": "^4.1"
   },
   "conflict": {
     "league/commonmark": ">=2.0.0,<2.8.2",
@@ -43,6 +56,7 @@
     }
   },
   "scripts": {
+    "analyse": "vendor/bin/phpstan analyse --memory-limit=512M",
     "lint": "vendor/bin/pint",
     "test": "vendor/bin/pest"
   },

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DanielMonroy\SatEstadoCfdi\Support;
 
 final class PrintedExpression
 {
     /** @var list<string> */
-    private const REQUIRED_KEYS = ['id', 're', 'rr', 'tt'];
+    private const array REQUIRED_KEYS = ['id', 're', 'rr', 'tt'];
 
     /**
      * @return array<string, string>

@@ -5,6 +5,7 @@ return [
     'expose_routes' => env('SAT_ESTADO_EXPOSE_ROUTES', false),
     'route_prefix' => env('SAT_ESTADO_ROUTE_PREFIX', 'api'),
     'middleware' => env('SAT_ESTADO_ROUTE_MIDDLEWARE', 'api'),
+    'max_xml_kb' => env('SAT_ESTADO_MAX_XML_KB', 2048),
 
     // HTTP Client (Guzzle) — timeouts y reintentos
     'http' => [

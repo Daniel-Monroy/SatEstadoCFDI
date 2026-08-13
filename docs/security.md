@@ -8,6 +8,7 @@ durante la carga del documento.
 Además:
 
 - valida que el archivo exista y sea legible
+- limita el tamaño del XML con `SAT_ESTADO_MAX_XML_KB`
 - corta el flujo cuando el XML es inválido
 - responde `422` en la capa HTTP opcional en lugar de generar un `500`
 
@@ -45,4 +46,5 @@ considerarse sustituto de observabilidad o manejo de errores en tu aplicación.
 - protege los endpoints HTTP con middleware apropiado
 - evita exponerlos públicamente sin autenticación
 - usa caché para reducir dependencia del SAT
+- no uses `SAT_ESTADO_HTTP_VERIFY=false` salvo debugging controlado
 - registra errores y latencia si la consulta es crítica para tu flujo

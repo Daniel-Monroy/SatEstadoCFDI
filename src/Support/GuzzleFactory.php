@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DanielMonroy\SatEstadoCfdi\Support;
 
 use GuzzleHttp\Client as GuzzleClient;

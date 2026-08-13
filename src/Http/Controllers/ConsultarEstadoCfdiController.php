@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DanielMonroy\SatEstadoCfdi\Http\Controllers;
 
 use DanielMonroy\SatEstadoCfdi\DTOs\EstadoCfdiNotFoundDto;

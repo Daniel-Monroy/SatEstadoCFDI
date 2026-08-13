@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DanielMonroy\SatEstadoCfdi\Http\Request;
 
 use Closure;
@@ -32,6 +34,7 @@ class ConsultarEstadoCfdiRequest extends FormRequest
                 'nullable',
                 'file',
                 'mimetypes:text/xml,application/xml',
+                'max:'.(int) config('sat-estado-cfdi.max_xml_kb', 2048),
                 'required_without:expression',
             ],
             'expression' => [
@@ -64,6 +67,7 @@ class ConsultarEstadoCfdiRequest extends FormRequest
     {
         return [
             'xml.required_without' => 'Debes enviar un XML o una expresión.',
+            'xml.max' => 'El XML no puede exceder el tamaño máximo permitido.',
             'expression.required_without' => 'Debes enviar una expresión o un XML.',
             'expression.max' => 'La expresión no puede exceder 1024 caracteres.',
         ];

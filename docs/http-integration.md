@@ -9,14 +9,15 @@ una conveniencia para proyectos Laravel que quieran exponer esta consulta rápid
 SAT_ESTADO_EXPOSE_ROUTES=true
 SAT_ESTADO_ROUTE_PREFIX=api
 SAT_ESTADO_ROUTE_MIDDLEWARE=api,auth:sanctum
+SAT_ESTADO_MAX_XML_KB=2048
 ```
 
 ## Endpoints
 
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| `POST` | `/api/cfdi/estado` | Consulta el estado de un CFDI |
-| `GET` | `/api/cfdi/estatus` | Verifica disponibilidad del paquete |
+| Método | Endpoint            | Descripción                         |
+|--------|---------------------|-------------------------------------|
+| `POST` | `/api/cfdi/estado`  | Consulta el estado de un CFDI       |
+| `GET`  | `/api/cfdi/estatus` | Verifica disponibilidad del paquete |
 
 ## Consulta por expresión
 
@@ -51,6 +52,7 @@ curl -X POST http://tu-dominio.test/api/cfdi/estado \
 - `200`: consulta exitosa
 - `404`: CFDI no encontrado
 - `422`: XML inválido o expresión incompleta
+- `422`: XML excede el tamaño permitido
 
 ## Middleware
 

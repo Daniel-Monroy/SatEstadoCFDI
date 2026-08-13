@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DanielMonroy\SatEstadoCfdi;
 
 use DanielMonroy\SatEstadoCfdi\Services\SatEstadoCfdi\EstadoCfdiResponseNormalizerService;
@@ -65,7 +67,7 @@ class SatEstadoCfdiServiceProvider extends ServiceProvider
      */
     private function routeMiddleware(): array
     {
-        $middleware = config('sat-estado-cfdi.middleware', ['api', 'auth:sanctum']);
+        $middleware = config('sat-estado-cfdi.middleware', 'api');
 
         if (is_string($middleware)) {
             $middleware = array_map('trim', explode(',', $middleware));

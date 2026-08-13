@@ -3,7 +3,7 @@
 ## Requisitos
 
 - PHP 8.3 o 8.4
-- Laravel 11, 12 o 13
+- Laravel 12 o 13
 - Extensión `ext-dom`
 
 ## Instalación con Composer
@@ -27,6 +27,7 @@ return [
     'expose_routes' => env('SAT_ESTADO_EXPOSE_ROUTES', false),
     'route_prefix' => env('SAT_ESTADO_ROUTE_PREFIX', 'api'),
     'middleware' => env('SAT_ESTADO_ROUTE_MIDDLEWARE', 'api'),
+    'max_xml_kb' => env('SAT_ESTADO_MAX_XML_KB', 2048),
     'cache_ttl' => env('SAT_ESTADO_CACHE_TTL', 900),
 ];
 ```
@@ -37,6 +38,7 @@ return [
 SAT_ESTADO_EXPOSE_ROUTES=false
 SAT_ESTADO_ROUTE_PREFIX=api
 SAT_ESTADO_ROUTE_MIDDLEWARE=api,auth:sanctum
+SAT_ESTADO_MAX_XML_KB=2048
 SAT_ESTADO_CACHE_TTL=900
 SAT_ESTADO_HTTP_TIMEOUT=10
 SAT_ESTADO_CONNECT_TIMEOUT=5

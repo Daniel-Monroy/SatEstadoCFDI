@@ -1,6 +1,18 @@
-# do not include this files on git
+# Archivos generados y locales
 /tools/
 /vendor/
 /composer.lock
 /.idea/
+/.agents/
+/.opencode/
 /.phpunit.cache/
+/.pest.cache/
+/.phpstan.cache/
+/.psalm/
+/build/
+/coverage/
+/opencode.json
+/skills-lock.json
+/.php-cs-fixer.cache
+/.phpunit.result.cache
+.DS_Store

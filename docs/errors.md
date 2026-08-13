@@ -37,6 +37,23 @@ Ejemplo:
 }
 ```
 
+## `422` por XML demasiado grande
+
+Se devuelve cuando el archivo XML excede `SAT_ESTADO_MAX_XML_KB`.
+
+Ejemplo de mensaje:
+
+```json
+{
+  "message": "The given data was invalid.",
+  "errors": {
+    "xml": [
+      "El XML no puede exceder el tamaño máximo permitido."
+    ]
+  }
+}
+```
+
 ## `422` por validación de expresión
 
 Se devuelve cuando la expresión no incluye al menos:
@@ -67,4 +84,5 @@ Recomendaciones:
 
 - usar caché
 - revisar timeouts
+- no desactivar verificación TLS salvo debugging controlado
 - no asumir disponibilidad total del SAT

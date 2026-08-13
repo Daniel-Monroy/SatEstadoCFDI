@@ -1,6 +1,6 @@
 # SatEstadoCFDI (Laravel Package)
 
-Este paquete integra la librería [phpcfdi/sat-estado-cfdi](https://github.com/phpcfdi/sat-estado-cfdi) en **Laravel 11, 12 y 13**
+Este paquete integra la librería [phpcfdi/sat-estado-cfdi](https://github.com/phpcfdi/sat-estado-cfdi) en **Laravel 12 y 13**
 para consultar el **estado de un CFDI** directamente en el **servicio web del SAT**.
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/daniel-monroy/sat-estado-cfdi.svg?style=flat-square)](https://packagist.org/packages/daniel-monroy/sat-estado-cfdi)
@@ -16,17 +16,19 @@ integración HTTP opcional para proyectos Laravel.
 - [Uso](./docs/usage.md)
 - [Integración HTTP](./docs/http-integration.md)
 - [Errores](./docs/errors.md)
-- [Testing](./docs/testing.md)
+- [Pruebas](./docs/testing.md)
 - [Seguridad](./docs/security.md)
 - [Arquitectura](./docs/architecture.md)
-- [Changelog](./docs/CHANGELOG.md)
+- [Registro de cambios](./docs/CHANGELOG.md)
+- [Contribuir](./CONTRIBUTING.md)
+- [Guía de actualización](./UPGRADE.md)
 
 ## Compatibilidad
 
 | PHP | Laravel |
 |-----|---------|
-| 8.3 | 11, 12, 13 |
-| 8.4 | 11, 12, 13 |
+| 8.3 | 12, 13 |
+| 8.4 | 12, 13 |
 
 ## 📦 Instalación
 
@@ -51,6 +53,7 @@ return [
     'expose_routes' => env('SAT_ESTADO_EXPOSE_ROUTES', false),
     'route_prefix'  => env('SAT_ESTADO_ROUTE_PREFIX', 'api'),
     'middleware'    => env('SAT_ESTADO_ROUTE_MIDDLEWARE', 'api'),
+    'max_xml_kb'    => env('SAT_ESTADO_MAX_XML_KB', 2048),
     'cache_ttl'     => env('SAT_ESTADO_CACHE_TTL', 900), // segundos
 ];
 ```
@@ -61,6 +64,7 @@ En el archivo `.env` puedes definir:
 SAT_ESTADO_EXPOSE_ROUTES=true
 SAT_ESTADO_ROUTE_PREFIX=api
 SAT_ESTADO_ROUTE_MIDDLEWARE=api,auth:sanctum
+SAT_ESTADO_MAX_XML_KB=2048
 SAT_ESTADO_CACHE_TTL=900
 ```
 
@@ -131,7 +135,7 @@ La respuesta será similar a:
   "ok": true,
   "status": "active",
   "id": "XXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX",
-  "message": "El CFDI se encuentra vigente y es valido.",
+  "message": "El CFDI se encuentra vigente y es válido.",
   "cancelabilidad": "sin_aceptacion",
   "cancelacion": "indefinida",
   "flags": {
@@ -168,6 +172,7 @@ La respuesta será similar a:
 
 - Si el CFDI no existe, el paquete responde `404` en la integración HTTP opcional y devuelve un DTO `not_found`.
 - Si el XML está mal formado o no puede leerse, la integración HTTP opcional responde `422`.
+- Si el XML excede `SAT_ESTADO_MAX_XML_KB`, la integración HTTP opcional responde `422`.
 - Si la expresión no contiene al menos `id`, `re`, `rr` y `tt`, la validación HTTP responderá `422`.
 
 ## Desarrollo
@@ -178,16 +183,18 @@ Instala dependencias de desarrollo y ejecuta las herramientas locales:
 composer install
 composer test
 composer lint
+composer analyse
 ```
 
 ## Notas
 
 - El paquete se apoya en y utiliza la librería [phpcfdi/sat-estado-cfdi](https://github.com/phpcfdi/sat-estado-cfdi)
 - El servicio del SAT puede ser intermitente, se recomienda configurar caché y reintentos.
+- No desactives `SAT_ESTADO_HTTP_VERIFY` salvo debugging controlado.
 - Los estados dependen de la respuesta oficial del SAT.
 - Si necesitas una integración agnóstica al framework, usa directamente `phpcfdi/sat-estado-cfdi`. Este paquete está
   orientado específicamente a Laravel.
 
 ## Licencia
 
-Este paquete es software libre bajo la licencia MIT.
+Este paquete usa licencia MIT. Sus dependencias principales usan licencias permisivas compatibles, como MIT, BSD-3-Clause y Apache-2.0.
